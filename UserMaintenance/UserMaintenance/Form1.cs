@@ -53,5 +53,13 @@ namespace UserMaintenance
                 }
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var törlendő = (from x in users
+                            where x.ID == (Guid)listBox1.SelectedValue
+                            select x).FirstOrDefault();
+            users.Remove(törlendő);
+        }
     }
 }
