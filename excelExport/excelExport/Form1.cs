@@ -96,7 +96,29 @@ namespace excelExport
                 counter++;
             }
 
-            xlSheet.get_Range(GetCell(2, 1), GetCell(1 + values.GetLength(0), values.GetLength(1))).Value2 = values;           
+            xlSheet.get_Range(GetCell(2, 1), GetCell(1 + values.GetLength(0), values.GetLength(1))).Value2 = values;
+
+            int lastRowID = xlSheet.UsedRange.Rows.Count;
+
+            Excel.Range headerRange = xlSheet.get_Range(GetCell(1, 1), GetCell(1, headers.Length));
+            headerRange.Font.Bold = true;
+            headerRange.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            headerRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+            headerRange.EntireColumn.AutoFit();
+            headerRange.RowHeight = 40;
+            headerRange.Interior.Color = Color.LightBlue;
+            headerRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            Excel.Range entireRange = xlSheet.get_Range(GetCell(1, 1), GetCell(lastRowID, headers.Length));
+            entireRange.BorderAround2(Excel.XlLineStyle.xlContinuous, Excel.XlBorderWeight.xlThick);
+
+            Excel.Range firstRange = xlSheet.get_Range(GetCell(1, 1), GetCell(lastRowID, 1));
+            firstRange.Font.Bold = true;
+            firstRange.Interior.Color = Color.LightYellow;
+
+            Excel.Range lastRange = xlSheet.get_Range(GetCell(1, 1), GetCell(1, lastRowID));
+            lastRange.Interior.Color = Color.LightGreen;
+            Math.Round(lastRange.Value, 2);
         }
 
         private string GetCell(int x, int y)
