@@ -81,6 +81,7 @@ namespace excelExport
             object[,] values = new object[Flats.Count, headers.Length];
 
             int counter = 0;
+            string keplet = (int.Parse(GetCell(1, 7)) / int.Parse(GetCell(1, 6))).ToString();
             foreach (Flat f in Flats)
             {
                 values[counter, 0] = f.Code;
@@ -91,9 +92,28 @@ namespace excelExport
                 values[counter, 5] = f.NumberOfRooms;
                 values[counter, 6] = f.FloorArea;
                 values[counter, 7] = f.Price;
-                values[counter, 8] = "";
+                values[counter, 8] = keplet;
                 counter++;
             }
+
+            xlSheet.get_Range(GetCell(2, 1), GetCell(1 + values.GetLength(0), values.GetLength(1))).Value2 = values;           
+        }
+
+        private string GetCell(int x, int y)
+        {
+            string ExcelCoordinate = "";
+            int dividend = y;
+            int modulo;
+
+            while (dividend > 0)
+            {
+                modulo = (dividend - 1) % 26;
+                ExcelCoordinate = Convert.ToChar(65 + modulo).ToString() + ExcelCoordinate;
+                dividend = (int)((dividend - modulo) / 26);
+            }
+            ExcelCoordinate += x.ToString();
+
+            return ExcelCoordinate;
         }
     }
 }
