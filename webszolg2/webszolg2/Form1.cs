@@ -127,13 +127,12 @@ namespace webszolg2
         {
             var xml = new XmlDocument();
             xml.LoadXml(xmlString);
-            foreach (XmlElement element in xml.DocumentElement)
+            foreach (XmlElement element in xml.DocumentElement.ChildNodes[0])
             {
-                var currency = new RateData();
-                Currencies.Add(currency.ToString());
-
-                var childElement = (XmlElement)element.ChildNodes[0];
-                currency.Currency = childElement.InnerText;
+                string currency;
+                var childElement = element.ChildNodes[0];
+                currency = childElement.InnerText;
+                Currencies.Add(currency);
             }
         }
     }
