@@ -17,18 +17,23 @@ namespace webszolg2
     public partial class Form1 : Form
     {
         BindingList<RateData> Rates = new BindingList<RateData>();
+        BindingList<string> Currencies = new BindingList<string>();
         public Form1()
         {
             InitializeComponent();
-            RefreshData();
+            GetCurrencies();
+            ListCurrencies(GetCurrencies());
+            comboBox1.DataSource = Currencies;
+            RefreshData();           
         }
 
         private void RefreshData()
         {
             Rates.Clear();
             GetWebservice();
-            dataGridView1.DataSource = Rates.ToList();
+            
             ProcessXml(GetWebservice());
+            dataGridView1.DataSource = Rates;
             ShowData();
         }
 
@@ -39,12 +44,12 @@ namespace webszolg2
             {
                 currencyNames = (string)comboBox1.SelectedItem,
                 startDate = dateTimePicker1.Value.ToString(),
-                endDate = dateTimePicker2.Value.ToString(),
+                endDate = dateTimePicker2.Value.ToString()
             };
 
             var response = mnbService.GetExchangeRates(request);
             var result = response.GetExchangeRatesResult;
-
+            Console.WriteLine(result);
             return result;
         }
         
@@ -61,6 +66,7 @@ namespace webszolg2
                 rate.Date = DateTime.Parse(element.GetAttribute("date"));
 
                 var childElement = (XmlElement)element.ChildNodes[0];
+                if (childElement == null) continue;
                 rate.Currency = childElement.GetAttribute("curr");
 
                 var unit = decimal.Parse(childElement.GetAttribute("unit"));
@@ -104,6 +110,31 @@ namespace webszolg2
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             RefreshData();
+        }
+
+        private string GetCurrencies()
+        {
+            var mnbService = new MNBArfolyamServiceSoapClient();
+
+            var request = new GetCurrenciesRequestBody();
+            var response = mnbService.GetCurrencies(request);
+            var result = response.GetCurrenciesResult;
+            Console.WriteLine(result);
+            return result;
+        }
+
+        private void ListCurrencies(string xmlString)
+        {
+            var xml = new XmlDocument();
+            xml.LoadXml(xmlString);
+            foreach (XmlElement element in xml.DocumentElement)
+            {
+                var currency = new RateData();
+                Currencies.Add(currency.ToString());
+
+                var childElement = (XmlElement)element.ChildNodes[0];
+                currency.Currency = childElement.InnerText;
+            }
         }
     }
 }
