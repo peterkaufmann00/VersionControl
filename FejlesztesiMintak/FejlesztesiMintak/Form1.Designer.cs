@@ -37,6 +37,9 @@ namespace FejlesztesiMintak
             this.btnBall = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.btnColor = new System.Windows.Forms.Button();
+            this.btnPresent = new System.Windows.Forms.Button();
+            this.btnBoxColor = new System.Windows.Forms.Button();
+            this.btnRibbonColor = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // mainPanel
@@ -97,11 +100,44 @@ namespace FejlesztesiMintak
             this.btnColor.UseVisualStyleBackColor = false;
             this.btnColor.Click += new System.EventHandler(this.btnColor_Click);
             // 
+            // btnPresent
+            // 
+            this.btnPresent.Location = new System.Drawing.Point(353, 32);
+            this.btnPresent.Name = "btnPresent";
+            this.btnPresent.Size = new System.Drawing.Size(119, 72);
+            this.btnPresent.TabIndex = 5;
+            this.btnPresent.Text = "PRESENT";
+            this.btnPresent.UseVisualStyleBackColor = true;
+            this.btnPresent.Click += new System.EventHandler(this.btnPresent_Click);
+            // 
+            // btnBoxColor
+            // 
+            this.btnBoxColor.BackColor = System.Drawing.Color.Red;
+            this.btnBoxColor.Location = new System.Drawing.Point(353, 123);
+            this.btnBoxColor.Name = "btnBoxColor";
+            this.btnBoxColor.Size = new System.Drawing.Size(119, 26);
+            this.btnBoxColor.TabIndex = 6;
+            this.btnBoxColor.UseVisualStyleBackColor = false;
+            this.btnBoxColor.Click += new System.EventHandler(this.btnColor_Click);
+            // 
+            // btnRibbonColor
+            // 
+            this.btnRibbonColor.BackColor = System.Drawing.Color.Yellow;
+            this.btnRibbonColor.Location = new System.Drawing.Point(353, 169);
+            this.btnRibbonColor.Name = "btnRibbonColor";
+            this.btnRibbonColor.Size = new System.Drawing.Size(119, 26);
+            this.btnRibbonColor.TabIndex = 7;
+            this.btnRibbonColor.UseVisualStyleBackColor = false;
+            this.btnRibbonColor.Click += new System.EventHandler(this.btnColor_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnRibbonColor);
+            this.Controls.Add(this.btnBoxColor);
+            this.Controls.Add(this.btnPresent);
             this.Controls.Add(this.btnColor);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBall);
@@ -123,6 +159,9 @@ namespace FejlesztesiMintak
         private System.Windows.Forms.Button btnBall;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnColor;
+        private System.Windows.Forms.Button btnPresent;
+        private System.Windows.Forms.Button btnBoxColor;
+        private System.Windows.Forms.Button btnRibbonColor;
     }
 }
 
