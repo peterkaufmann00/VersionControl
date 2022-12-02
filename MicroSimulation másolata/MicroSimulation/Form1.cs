@@ -17,6 +17,8 @@ namespace MicroSimulation
         List<Person> Population = new List<Person>();
         List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
         List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
+        List<int> Males = new List<int>();
+        List<int> Females = new List<int>();
 
         Random rng = new Random(1234);
         public Form1()
@@ -26,7 +28,13 @@ namespace MicroSimulation
             Population = GetPopulation(@"C:\Users\User\AppData\Local\Temp\nép.csv");
             BirthProbabilities = GetBirthProbabilities(@"C:\Users\User\AppData\Local\Temp\születés.csv");
             DeathProbabilities = GetDeathProbabilities(@"C:\Users\User\AppData\Local\Temp\halál.csv");
+        }
 
+        private void Simulation(string fileName)
+        {
+            richTextBox1.Clear();
+            Males.Clear();
+            Females.Clear();
             for (int year = 2005; year <= 2024; year++)
             {
                 for (int i = 0; i < Population.Count; i++)
@@ -37,10 +45,12 @@ namespace MicroSimulation
                 int nbrOfMales = (from x in Population
                                   where x.Gender == Gender.Male && x.IsAlive
                                   select x).Count();
+                Males.Add(nbrOfMales);
 
                 int nbrOfFemales = (from x in Population
                                     where x.Gender == Gender.Female && x.IsAlive
                                     select x).Count();
+                Females.Add(nbrOfFemales);
 
                 Console.WriteLine(string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
             }
@@ -71,6 +81,15 @@ namespace MicroSimulation
                     újszülött.Gender = (Gender)(rng.Next(1, 3));
                     Population.Add(újszülött);
                 }
+            }
+        }
+
+        private void DisplayResults()
+        {
+            int maxYear = (int)numericUpDown1.Value;
+            for (int year = 2005; year <= maxYear; year++)
+            {
+                richTextBox1.Text = string.Format("Szimulációs év: {0}\nFiúk: {1}\nLányok: {2}", year.ToString(), Males, Females);
             }
         }
 
@@ -129,6 +148,22 @@ namespace MicroSimulation
                 }
             }
             return deathProbabilities;
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            Simulation(textBox1.Text);
+            DisplayResults();
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() != DialogResult.OK) return;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                textBox1.Text = ofd.FileName;
+            }
         }
     }
 }
