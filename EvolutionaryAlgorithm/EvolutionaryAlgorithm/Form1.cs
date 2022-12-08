@@ -21,6 +21,9 @@ namespace EvolutionaryAlgorithm
 
             ga = gc.ActivateDisplay();
             this.Controls.Add(ga);
+
+            //gc.AddPlayer();
+            //gc.Start(true);
         }
     }
 }
